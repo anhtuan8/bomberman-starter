@@ -4,12 +4,19 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.bomb.Bomb;
+import uet.oop.bomberman.entities.bomb.Flame;
+import uet.oop.bomberman.entities.character.enemy.Enemy;
+import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.input.Keyboard;
+import uet.oop.bomberman.level.Coordinates;
 
 import java.util.Iterator;
 import java.util.List;
+
+import static java.lang.Math.abs;
 
 public class Bomber extends Character {
 
@@ -111,25 +118,76 @@ public class Bomber extends Character {
     protected void calculateMove() {
         // TODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
         // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
+        double xa=0,ya=0;
+        if(_input.up)   ya=ya-0.5;
+        if(_input.down) ya = ya+0.5;
+        if(_input.left) xa = xa - 0.5;
+        if(_input.right) xa = xa + 0.5;
+
+        if(xa != 0 || ya !=0){
+            move(xa*Game.getBomberSpeed(),ya*Game.getBomberSpeed());
+            _moving = true;
+        }
+        else {
+            _moving = false;
+        }
     }
 
     @Override
     public boolean canMove(double x, double y) {
         // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
-        return false;
+        for (int c = 0; c < 4; c++) { //colision detection for each corner of the player
+            double xt = ((_x + x) + c % 2 * 11) / Game.TILES_SIZE;
+            double yt = ((_y + y) + c / 2 * 14 - 15) / Game.TILES_SIZE;
+
+            Entity a = _board.getEntity(xt, yt, this);
+            if(!a.collide(this)) {
+                this.collide(a);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override
     public void move(double xa, double ya) {
         // TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không và thực hiện thay đổi tọa độ _x, _y
         // TODO: nhớ cập nhật giá trị _direction sau khi di chuyển
+        if(xa > 0) _direction = 1;
+        if(xa < 0) _direction = 3;
+        if(ya > 0) _direction = 2;
+        if(ya < 0) _direction = 0;
+
+        if(canMove(0, ya)) { //separate the moves for the player can slide when is colliding
+            _y = _y +ya;
+            double d = (_y - (this.getYTile()+1)*Game.TILES_SIZE);
+            if(abs(d) <= 8 && !_moving){
+                _y = _y - d;
+            }
+        }
+
+        if(canMove(xa, 0)) {
+            _x += xa;
+            double d = (_x - this.getXTile()*Game.TILES_SIZE);
+            if(abs(d) <= 8 && !_moving){
+                _x = _x - d;
+            }
+        }
     }
 
     @Override
     public boolean collide(Entity e) {
         // TODO: xử lý va chạm với Flame
         // TODO: xử lý va chạm với Enemy
-
+        if(e instanceof Flame){
+            kill();
+            return false;
+        }
+        if(e instanceof Enemy){
+            kill();
+            return false;
+        }
         return true;
     }
 
