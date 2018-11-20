@@ -79,6 +79,25 @@ public abstract class Enemy extends Character {
 		// TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không
 		// TODO: sử dụng move() để di chuyển
 		// TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
+
+		double xa=0,ya=0;
+		if(_steps <=0){
+			_direction = _ai.calculateDirection();
+			_steps = MAX_STEPS;
+		}
+		if(_direction == 0) ya = - 1;
+		if(_direction == 1) xa = + 1;
+		if(_direction == 2) ya = + 1;
+		if(_direction == 3) xa = - 1;
+
+		if(canMove(xa,ya)){
+			_steps = _steps - 1 -rest;
+			move(xa*_speed,ya*_speed);
+			_moving = true;
+		}else{
+			_steps = 0;
+			_moving = false;
+		}
 	}
 	
 	@Override
@@ -91,13 +110,43 @@ public abstract class Enemy extends Character {
 	@Override
 	public boolean canMove(double x, double y) {
 		// TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
-		return false;
+		double xt = 0, yt = 0;
+		if(y < 0){//go up
+			xt = (int) ((_x + 5) / Game.TILES_SIZE);
+			yt = (int) ((_y + -1) / Game.TILES_SIZE) - 1;
+		}
+		if(x > 0){//right
+			xt = (int) ((_x+1) / Game.TILES_SIZE) +1;
+			yt = (int)((_y -8) / Game.TILES_SIZE);
+		}
+		if(y>0) {//down
+			xt = (int)((_x + 5)  / Game.TILES_SIZE);
+			yt = (int)((_y - Game.TILES_SIZE + 1 ) / Game.TILES_SIZE) +1;
+		}
+		if(_direction == 3){//left
+			xt = (int)((_x + 15 ) / Game.TILES_SIZE) -1;
+			yt = (int)((_y + -8) / Game.TILES_SIZE);
+		}
+
+		Entity a = _board.getEntity(xt, yt, this);
+		if(!a.collide(this)) {
+			this.collide(a);
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean collide(Entity e) {
 		// TODO: xử lý va chạm với Flame
 		// TODO: xử lý va chạm với Bomber
+		if(e instanceof Flame){
+			kill();
+			return true;
+		}
+		if(e instanceof Bomber){
+			return true;
+		}
 		return true;
 	}
 	

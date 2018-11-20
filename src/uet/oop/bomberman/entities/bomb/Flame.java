@@ -1,7 +1,14 @@
 package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.character.Bomber;
+import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.entities.character.enemy.Enemy;
+import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
+import uet.oop.bomberman.entities.tile.destroyable.DestroyableTile;
 import uet.oop.bomberman.graphics.Screen;
 
 public class Flame extends Entity {
@@ -42,9 +49,20 @@ public class Flame extends Entity {
 		/**
 		 * biến last dùng để đánh dấu cho segment cuối cùng
 		 */
-		boolean last;
-
+		boolean last = false;
+		int x = (int) _x;
+		int y = (int) _y;
 		// TODO: tạo các segment dưới đây
+		for(int i =0;i<calculatePermitedDistance();i++){
+			if(i == (calculatePermitedDistance()-1) )	last = true;
+			switch (_direction){
+				case 0: y--; break;
+				case 1: x++; break;
+				case 2: y++; break;
+				case 3: x--; break;
+			}
+			_flameSegments[i] = new FlameSegment(x,y,_direction,last);
+		}
 	}
 
 	/**
@@ -53,7 +71,25 @@ public class Flame extends Entity {
 	 */
 	private int calculatePermitedDistance() {
 		// TODO: thực hiện tính toán độ dài của Flame
-		return 1;
+		int count = 0,x = (int) _x, y = (int) _y;
+		while(count < _radius){
+			if(_direction == 0) y--;
+			if(_direction == 1) x++;
+			if(_direction == 2) y++;
+			if(_direction == 3) x--;
+
+			Entity e = _board.getEntity(x,y,null);
+			if(e instanceof DestroyableTile){
+				((DestroyableTile) e).destroy();
+				return count;
+			}
+			if(e instanceof Wall)	return count;
+			if(e instanceof Bomber || e instanceof Enemy){
+				((Character) e).kill();
+			}
+			count++;
+		}
+		return count;
 	}
 	
 	public FlameSegment flameSegmentAt(int x, int y) {

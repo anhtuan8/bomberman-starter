@@ -3,9 +3,11 @@ package uet.oop.bomberman.entities.character;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
+import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Screen;
@@ -80,10 +82,16 @@ public class Bomber extends Character {
         // TODO: _timeBetweenPutBombs dùng để ngăn chặn Bomber đặt 2 Bomb cùng tại 1 vị trí trong 1 khoảng thời gian quá ngắn
         // TODO: nếu 3 điều kiện trên thỏa mãn thì thực hiện đặt bom bằng placeBomb()
         // TODO: sau khi đặt, nhớ giảm số lượng Bomb Rate và reset _timeBetweenPutBombs về 0
+        if(_input.space && _timeBetweenPutBombs < 0 && Game.getBombRate()>0){
+            _timeBetweenPutBombs = 30;
+            Game.addBombRate(-1);
+            placeBomb(this.getXTile(),this.getYTile());
+        }
     }
 
     protected void placeBomb(int x, int y) {
         // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
+        _board.addBomb(new Bomb(x,y,_board));
     }
 
     private void clearBombs() {
@@ -119,10 +127,10 @@ public class Bomber extends Character {
         // TODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
         // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
         double xa=0,ya=0;
-        if(_input.up)   ya=ya-0.5;
-        if(_input.down) ya = ya+0.5;
-        if(_input.left) xa = xa - 0.5;
-        if(_input.right) xa = xa + 0.5;
+        if(_input.up)   ya--;
+        if(_input.down) ya++;
+        if(_input.left) xa --;
+        if(_input.right) xa++;
 
         if(xa != 0 || ya !=0){
             move(xa*Game.getBomberSpeed(),ya*Game.getBomberSpeed());
@@ -138,7 +146,7 @@ public class Bomber extends Character {
         // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
         for (int c = 0; c < 4; c++) { //colision detection for each corner of the player
             double xt = ((_x + x) + c % 2 * 11) / Game.TILES_SIZE;
-            double yt = ((_y + y) + c / 2 * 14 - 15) / Game.TILES_SIZE;
+            double yt = ((_y + y) + c / 2 * 14 - 16) / Game.TILES_SIZE;
 
             Entity a = _board.getEntity(xt, yt, this);
             if(!a.collide(this)) {
@@ -148,6 +156,7 @@ public class Bomber extends Character {
         }
 
         return true;
+
     }
 
     @Override
@@ -162,7 +171,7 @@ public class Bomber extends Character {
         if(canMove(0, ya)) { //separate the moves for the player can slide when is colliding
             _y = _y +ya;
             double d = (_y - (this.getYTile()+1)*Game.TILES_SIZE);
-            if(abs(d) <= 8 && !_moving){
+            if(abs(d) <= 4 && !_moving){
                 _y = _y - d;
             }
         }
@@ -170,7 +179,7 @@ public class Bomber extends Character {
         if(canMove(xa, 0)) {
             _x += xa;
             double d = (_x - this.getXTile()*Game.TILES_SIZE);
-            if(abs(d) <= 8 && !_moving){
+            if(abs(d) <= 4 && !_moving){
                 _x = _x - d;
             }
         }
@@ -182,11 +191,11 @@ public class Bomber extends Character {
         // TODO: xử lý va chạm với Enemy
         if(e instanceof Flame){
             kill();
-            return false;
+            return true;
         }
         if(e instanceof Enemy){
             kill();
-            return false;
+            return true;
         }
         return true;
     }
