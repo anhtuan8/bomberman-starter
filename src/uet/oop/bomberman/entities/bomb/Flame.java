@@ -79,13 +79,16 @@ public class Flame extends Entity {
 			if(_direction == 3) x--;
 
 			Entity e = _board.getEntity(x,y,null);
-			if(e instanceof DestroyableTile){
-				((DestroyableTile) e).destroy();
+//			if(e instanceof DestroyableTile){
+//				((DestroyableTile) e).destroy();
+//				return count;
+//			}
+//			if(e instanceof Wall) { return count;}
+//			if(e instanceof Bomber || e instanceof Enemy){
+//				((Character) e).kill();
+//			}
+			if(!e.collide(this)){
 				return count;
-			}
-			if(e instanceof Wall)	return count;
-			if(e instanceof Bomber || e instanceof Enemy){
-				((Character) e).kill();
 			}
 			count++;
 		}
