@@ -35,7 +35,8 @@ public class Game extends Canvas {
 	protected static int bombRate = BOMBRATE;
 	protected static int bombRadius = BOMBRADIUS;
 	protected static double bomberSpeed = BOMBERSPEED;
-	
+
+	public static int LASTLEVEL = 5;
 	
 	protected int _screenDelay = SCREENDELAY;
 	
