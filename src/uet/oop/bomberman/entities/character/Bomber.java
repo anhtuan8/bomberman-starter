@@ -151,7 +151,6 @@ public class Bomber extends Character {
 
             Entity a = _board.getEntity(xt, yt, this);
             if(!a.collide(this)) {
-                this.collide(a);
                 return false;
             }
         }
@@ -171,26 +170,37 @@ public class Bomber extends Character {
 
         if(canMove(0, ya)) { //separate the moves for the player can slide when is colliding
             _y = _y +ya;
-            double d = (_y - (this.getYTile()+1)*Game.TILES_SIZE);
-            if(abs(d) <= 4 && !_moving){
-                _y = _y - d;
-            }
+//            double d = (_y - (this.getYTile()+1)*Game.TILES_SIZE);
+//            if(abs(d) <= 4 && !_moving){
+//                _y = _y - d;
+//            }
+        }else{
+//            double dx = _x %16;
+//            if(dx >= 8 && canMove(1,0) ){
+//                move(1,0);
+//            }
+//            else if(dx < 8  && canMove(-1,0) ){
+//                move(-1,0);
+//            }
         }
 
         if(canMove(xa, 0)) {
             _x += xa;
-            double d = (_x - this.getXTile()*Game.TILES_SIZE);
-            if(abs(d) <= 4 && !_moving){
-                _x = _x - d;
-            }
+//            double d = (_x - this.getXTile()*Game.TILES_SIZE);
+//            if(abs(d) <= 4 && !_moving){
+//                _x = _x - d;
+//            }
         }
+//        else if(canMove(0,0.5)){
+//            move(0,0.5);
+//        }
     }
 
     @Override
     public boolean collide(Entity e) {
         // TODO: xử lý va chạm với Flame
         // TODO: xử lý va chạm với Enemy
-        if(e instanceof FlameSegment){
+        if(e instanceof Flame){
             kill();
             return true;
         }

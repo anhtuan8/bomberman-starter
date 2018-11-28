@@ -29,7 +29,7 @@ public class Portal extends Tile {
 			}
 			return true;
 		}
-		return false;
+		return true;
 	}
 
 }

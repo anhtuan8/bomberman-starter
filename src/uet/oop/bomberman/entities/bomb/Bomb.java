@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.level.Coordinates;
 
 import static java.lang.Math.abs;
 
@@ -110,9 +111,9 @@ public class Bomb extends AnimatedEntitiy {
         // TODO: xử lý khi Bomber đi ra sau khi vừa đặt bom (_allowedToPassThru)
         // TODO: xử lý va chạm với Flame của Bomb khác
         if(e instanceof Bomber){
-            double dx = _board.getBomber().getX() - _x* Game.TILES_SIZE;
-            double dy = _board.getBomber().getY() - _y*Game.TILES_SIZE;
-            if(abs(dx) >= Game.TILES_SIZE && dy <-1 && dy >=Game.TILES_SIZE*2){
+            double dx = e.getX() - Coordinates.tileToPixel(getX());
+            double dy = e.getY() - Coordinates.tileToPixel(getY());
+            if(!(dx >= -10 && dx < 16 && dy >= 2 && dy <= 30)){
                 _allowedToPassThru = false;
             }
             return _allowedToPassThru;
