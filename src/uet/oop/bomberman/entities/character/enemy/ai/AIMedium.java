@@ -36,6 +36,9 @@ public class AIMedium extends AI {
 			possible_direction.add(0);
 		}
 
+		if(dx == 0 && dy ==0){
+			return random.nextInt(4);
+		}
 		return possible_direction.get(random.nextInt(possible_direction.size()));
 	}
 

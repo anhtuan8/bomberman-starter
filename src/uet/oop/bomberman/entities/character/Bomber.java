@@ -176,7 +176,7 @@ public class Bomber extends Character {
         if(canMove(0, ya)) { //separate the moves for the player can slide when is colliding
             _y = _y +ya;
         }else{
-            if(dx > 3 && canMove(-1,0) ){
+            if(dx > 4 && canMove(-1,0) ){
                 move(-1,0);
             }
             else if(dx < 0  && canMove(1,0) ){
