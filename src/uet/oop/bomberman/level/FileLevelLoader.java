@@ -77,6 +77,7 @@ public class FileLevelLoader extends LevelLoader {
 			for(int y = 0;y<_height;y++){
 				for(int x=0;x<_width;x++){
 					switch (_map[y][x]){
+						//Wall
 						case '#':{
 							//them Wall
 							int pos = x + y * _width;
@@ -84,6 +85,8 @@ public class FileLevelLoader extends LevelLoader {
 							_board.addEntity(pos, new Wall(x, y, sprite));
 							break;
 						}
+
+						//Brick
 						case '*':{
 							//them Brick
 							_board.addEntity(x + y * _width,
@@ -94,15 +97,17 @@ public class FileLevelLoader extends LevelLoader {
 							);
 							break;
 						}
+
+						//bomber
 						case 'p':{
-							//them bomber
 							_board.addCharacter( new Bomber(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board) );
 							Screen.setOffset(0, 0);
 							_board.addEntity(x + y * _width, new Grass(x, y, Sprite.grass));
 							break;
 						}
+
+						//portal
 						case 'x':{
-							//them portal
 							int pos = x + y * _width;
 							Sprite sprite = Sprite.portal;
 							_board.addEntity(pos,
@@ -114,6 +119,8 @@ public class FileLevelLoader extends LevelLoader {
 							);
 							break;
 						}
+
+						//enemy
 						case '1':{
 							//them ballooom
 							_board.addCharacter(new Balloon(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
@@ -127,6 +134,17 @@ public class FileLevelLoader extends LevelLoader {
 							_board.addEntity(xE + yE * _width, new Grass(xE, yE, Sprite.grass));
 							break;
 						}
+						case '3':{
+							//
+						}
+						case '4':{
+
+						}
+						case '5':{
+
+						}
+
+						//item
 						case 'b':{
 							//them bomb item
 							int xI = x, yI = y;
@@ -163,6 +181,8 @@ public class FileLevelLoader extends LevelLoader {
 							);
 							break;
 						}
+
+						//grass
 						default:{
 							//them grass
 							int pos = x + y * _width;
