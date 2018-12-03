@@ -48,8 +48,6 @@ public class Oneal extends Enemy {
 
 	@Override
 	public void calculateMove() {
-
-		System.out.println(stand);
 		double xa=0,ya=0;
 		Random random = new Random();
 		if(stand < -5) {

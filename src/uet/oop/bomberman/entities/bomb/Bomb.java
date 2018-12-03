@@ -11,6 +11,8 @@ import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 
+import java.util.Iterator;
+
 import static java.lang.Math.abs;
 
 public class Bomb extends AnimatedEntitiy {
@@ -80,9 +82,10 @@ public class Bomb extends AnimatedEntitiy {
      */
 	protected void explode() {
 		_exploded = true;
+		_allowedToPassThru = true;
 		// TODO: xử lý khi Character đứng tại vị trí Bomb
-		for(Character c : _board._characters){
-			if(c.getXTile() == _x && c.getYTile()==_y ){
+		for (Character c : _board._characters) {
+			if(c.getXTile() == _x && c.getYTile() == _y){
 				c.kill();
 			}
 		}
@@ -119,8 +122,10 @@ public class Bomb extends AnimatedEntitiy {
             return _allowedToPassThru;
         }
         if(e instanceof Flame){
-            this.explode();
+            _timeToExplode = 0;
+            return true;
         }
+
         return false;
 	}
 }

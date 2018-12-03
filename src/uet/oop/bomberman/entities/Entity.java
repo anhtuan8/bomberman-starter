@@ -10,7 +10,8 @@ import uet.oop.bomberman.level.Coordinates;
  */
 public abstract class Entity implements IRender {
 
-	protected double _x, _y;
+	protected double _x;
+    protected double _y;
 	protected boolean _removed = false;
 	protected Sprite _sprite;
 

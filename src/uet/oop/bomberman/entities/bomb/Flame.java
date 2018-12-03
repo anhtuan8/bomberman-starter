@@ -41,10 +41,11 @@ public class Flame extends Entity {
 	 * Tạo các FlameSegment, mỗi segment ứng một đơn vị độ dài
 	 */
 	private void createFlameSegments() {
+		int length = calculatePermitedDistance();
 		/**
 		 * tính toán độ dài Flame, tương ứng với số lượng segment
 		 */
-		_flameSegments = new FlameSegment[calculatePermitedDistance()];
+		_flameSegments = new FlameSegment[length];
 
 		/**
 		 * biến last dùng để đánh dấu cho segment cuối cùng
@@ -53,8 +54,8 @@ public class Flame extends Entity {
 		int x = (int) _x;
 		int y = (int) _y;
 		// TODO: tạo các segment dưới đây
-		for(int i =0;i<calculatePermitedDistance();i++){
-			if(i == (calculatePermitedDistance()-1) )	last = true;
+		for(int i =0;i<length;i++){
+			if(i == (length-1) )	last = true;
 			switch (_direction){
 				case 0: y--; break;
 				case 1: x++; break;
@@ -79,6 +80,7 @@ public class Flame extends Entity {
 			if(_direction == 3) x--;
 
 			Entity e = _board.getEntity(x,y,null);
+			System.out.println(e + " " +_direction+ " " + _radius);
 //			if(e instanceof DestroyableTile){
 //				((DestroyableTile) e).destroy();
 //				return count;
@@ -88,9 +90,11 @@ public class Flame extends Entity {
 //				((Character) e).kill();
 //			}
 			if(!e.collide(this)){
-				return count;
+				System.out.println(count);
+				break;
 			}
 			count++;
+			System.out.println(count);
 		}
 		return count;
 	}
@@ -116,6 +120,13 @@ public class Flame extends Entity {
 	@Override
 	public boolean collide(Entity e) {
 		// TODO: xử lý va chạm với Bomber, Enemy. Chú ý đối tượng này có vị trí chính là vị trí của Bomb đã nổ
+		if(e instanceof Character){
+			((Character) e).kill();
+			return true;
+		}
+		if(e instanceof Bomb){
+			((Bomb) e).explode();
+		}
 		return true;
 	}
 }
