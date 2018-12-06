@@ -91,6 +91,8 @@ public class Bomber extends Character {
 
     protected void placeBomb(int x, int y) {
         // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
+        SoundFile.place_bomb.play();
+        SoundFile.place_bomb.gainControl.setValue(6);
         _board.addBomb(new Bomb(x,y,_board));
     }
 

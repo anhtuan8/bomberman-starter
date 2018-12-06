@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.IRender;
 import uet.oop.bomberman.graphics.Screen;
+import uet.oop.bomberman.gui.Frame;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.level.FileLevelLoader;
 import uet.oop.bomberman.level.LevelLoader;
@@ -84,6 +85,7 @@ public class Board implements IRender {
 	}
 	
 	public void nextLevel() {
+		_game.player.pause();
 		loadLevel(_levelLoader.getLevel() + 1);
 	}
 	
@@ -101,7 +103,6 @@ public class Board implements IRender {
 			_entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
 			
 			_levelLoader.createEntities();
-//			_game.player.run();
 		} catch (LoadLevelException e) {
 			endGame();
 		} catch (IOException e) {
@@ -117,7 +118,7 @@ public class Board implements IRender {
 	public void endGame() {
 		_screenToShow = 1;
 		_game.resetScreenDelay();
-		_game.player.stop();
+		_game.player.pause();
 		_game.pause();
 	}
 	

@@ -19,7 +19,7 @@ public class Frame extends JFrame {
 	
 	private Game _game;
 
-	private ThreadPool pool;
+	public static ThreadPool pool;
 
 	public Frame() {
 		pool = new ThreadPool(2);

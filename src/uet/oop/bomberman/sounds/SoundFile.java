@@ -10,7 +10,7 @@ public class SoundFile implements LineListener{
     private DataLine.Info       info;
     protected Clip                clip;
     private volatile boolean    playing;
-    protected FloatControl        gainControl;
+    public FloatControl        gainControl;
 
     public static final SoundFile step = new SoundFile(".\\res\\sounds\\footstep.wav");
     public static final SoundFile explosion = new SoundFile(".\\res\\sounds\\explosion.wav");
@@ -20,6 +20,7 @@ public class SoundFile implements LineListener{
     public static final SoundFile point = new SoundFile(".\\res\\sounds\\point.wav");
     public static final SoundFile powerup = new SoundFile(".\\res\\sounds\\powerup.wav");
     public static final SoundFile next_level = new SoundFile(".\\res\\sounds\\next_level.wav");
+    public static final SoundFile place_bomb = new SoundFile(".\\res\\sounds\\place_bomb.wav");
 
     public static final SoundFile background_song1 = new SoundFile(".\\res\\sounds\\background_song1.wav");
 

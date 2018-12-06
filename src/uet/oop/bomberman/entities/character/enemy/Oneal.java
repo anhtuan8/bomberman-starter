@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class Oneal extends Enemy {
 	private int condition ;//-1: normal, -2: can't move, 0,2: follow this direction until found possible horizontal direction, 1,3: similar
-	private int stand;
+	private double stand;
 
 	public Oneal(int x, int y, Board board) {
 		super(x, y, board, Sprite.oneal_dead, Game.getBomberSpeed(), 200);
@@ -122,7 +122,7 @@ public class Oneal extends Enemy {
 			_steps = _steps - 1 -rest;
 			move(xa*_speed,ya*_speed);
 			_moving = true;
-			stand++;
+			stand = stand + 0.2;
 		}else{
 			_steps = 0;
 			stand--;

@@ -156,8 +156,12 @@ public class Game extends Canvas implements Runnable {
 				updates = 0;
 				frames = 0;
 				
-				if(_board.getShow() == 2)
+				if(_board.getShow() == 2) {
 					--_screenDelay;
+					if(--_screenDelay <=0){
+						player.unpause();
+					}
+				}
 			}
 		}
 	}

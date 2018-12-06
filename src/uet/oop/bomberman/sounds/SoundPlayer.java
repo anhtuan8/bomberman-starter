@@ -28,22 +28,26 @@ public class SoundPlayer implements Runnable {
         song.gainControl.setValue(-15);
         song.play();
         System.out.println(running);
-        while (running ) {
-            if (!song.isPlaying()) {
-                current_index++;
-                if (current_index >= playList.size()) current_index = 0;
-                song = playList.get(current_index);
-                song.gainControl.setValue(-15);
-                song.play();
+        while (true ) {
+            if(running) {
+                if (!song.isPlaying()) {
+                    current_index++;
+                    if (current_index >= playList.size()) current_index = 0;
+                    song = playList.get(current_index);
+                    song.gainControl.setValue(-15);
+                    song.play();
+                }
             }
         }
     }
-    public void stop(){
+    public void pause(){
         running = false;
-        for(SoundFile song: playList){
-            song.clip.stop();
-            song.clip.flush();
-            song.clip.setFramePosition(0);
-        }
+        SoundFile song = playList.get(current_index);
+        song.clip.stop();
+    }
+
+    public void unpause(){
+        running = true;
+//        playList.get(current_index).clip.start();
     }
 }
