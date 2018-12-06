@@ -24,14 +24,17 @@ public class Portal extends Tile {
 //				if (_board.detectNoEnemies()) {
 //					if(_board.getLevel().getLevel() == Game.LASTLEVEL){
 //						//TODO: Game Finished. Phao hoa tum lum te le.
+//
 //					}
 //					else {
+//						SoundFile.next_level.play();
 //						_board.nextLevel();
 //					}
 //				}
 //			}
 			SoundFile.next_level.play();
 			_board.nextLevel();
+//			_board.getGame().player.run();
 			return true;
 		}
 		return true;

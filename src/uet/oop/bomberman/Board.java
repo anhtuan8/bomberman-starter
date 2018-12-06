@@ -101,6 +101,7 @@ public class Board implements IRender {
 			_entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
 			
 			_levelLoader.createEntities();
+//			_game.player.run();
 		} catch (LoadLevelException e) {
 			endGame();
 		} catch (IOException e) {
@@ -116,6 +117,7 @@ public class Board implements IRender {
 	public void endGame() {
 		_screenToShow = 1;
 		_game.resetScreenDelay();
+		_game.player.stop();
 		_game.pause();
 	}
 	

@@ -199,7 +199,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void pause() {
-		player.stop();
+//		player.stop();
 		_paused = true;
 	}
 	
