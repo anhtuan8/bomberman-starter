@@ -155,6 +155,30 @@ public class FileLevelLoader extends LevelLoader {
 							break;
 
 						}
+						case '6':{
+							//them Ovape
+							int xE = x, yE = y;
+							_board.addCharacter(new Ovape(Coordinates.tileToPixel(xE), Coordinates.tileToPixel(yE) + Game.TILES_SIZE, _board));
+							_board.addEntity(xE + yE * _width, new Grass(xE, yE, Sprite.grass));
+							break;
+
+						}
+						case '7':{
+							//them Pontan
+							int xE = x, yE = y;
+							_board.addCharacter(new Pontan(Coordinates.tileToPixel(xE), Coordinates.tileToPixel(yE) + Game.TILES_SIZE, _board));
+							_board.addEntity(xE + yE * _width, new Grass(xE, yE, Sprite.grass));
+							break;
+
+						}
+						case '8':{
+							//them Pass
+							int xE = x, yE = y;
+							_board.addCharacter(new Pass(Coordinates.tileToPixel(xE), Coordinates.tileToPixel(yE) + Game.TILES_SIZE, _board));
+							_board.addEntity(xE + yE * _width, new Grass(xE, yE, Sprite.grass));
+							break;
+						}
+
 
 						//item
 						case 'b':{
