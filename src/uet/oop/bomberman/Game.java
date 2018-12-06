@@ -3,6 +3,9 @@ package uet.oop.bomberman;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.gui.Frame;
 import uet.oop.bomberman.input.Keyboard;
+import uet.oop.bomberman.sounds.SoundFile;
+import uet.oop.bomberman.sounds.SoundPlayer;
+import uet.oop.bomberman.util.ThreadPool;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -13,7 +16,7 @@ import java.awt.image.DataBufferInt;
  * Tạo vòng lặp cho game, lưu trữ một vài tham số cấu hình toàn cục,
  * Gọi phương thức render(), update() cho tất cả các entity
  */
-public class Game extends Canvas {
+public class Game extends Canvas implements Runnable {
 
 	public static final int TILES_SIZE = 16,
 							WIDTH = TILES_SIZE * (31 / 2),
@@ -50,6 +53,8 @@ public class Game extends Canvas {
 	
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+
+	public SoundPlayer player = new SoundPlayer(SoundFile.background_song1);
 	
 	public Game(Frame frame) {
 		_frame = frame;
@@ -108,8 +113,9 @@ public class Game extends Canvas {
 		_input.update();
 		_board.update();
 	}
-	
-	public void start() {
+
+	@Override
+	public void run() {
 		_running = true;
 		
 		long  lastTime = System.nanoTime();
@@ -119,6 +125,7 @@ public class Game extends Canvas {
 		int frames = 0;
 		int updates = 0;
 		requestFocus();
+
 		while(_running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
@@ -134,7 +141,6 @@ public class Game extends Canvas {
 					_board.setShow(-1);
 					_paused = false;
 				}
-					
 				renderScreen();
 			} else {
 				renderGame();
@@ -193,6 +199,7 @@ public class Game extends Canvas {
 	}
 	
 	public void pause() {
+		player.stop();
 		_paused = true;
 	}
 	

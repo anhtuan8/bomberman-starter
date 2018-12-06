@@ -5,9 +5,12 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.character.enemy.ai.AILow;
 import uet.oop.bomberman.graphics.Sprite;
 
+/**
+ * Dahl move fast
+ */
 public class Dahl extends Enemy{
     public Dahl(int x, int y, Board board) {
-        super(x, y, board, Sprite.doll_dead, Game.getBomberSpeed() / 2, 100);
+        super(x, y, board, Sprite.doll_dead, Game.getBomberSpeed() , 100);
 
         _sprite = Sprite.doll_left1;
 

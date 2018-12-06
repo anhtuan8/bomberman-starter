@@ -2,16 +2,15 @@ package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.sounds.SoundFile;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
-import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
-
-import java.util.Iterator;
+import uet.oop.bomberman.sounds.SoundFile;
 
 import static java.lang.Math.abs;
 
@@ -83,6 +82,8 @@ public class Bomb extends AnimatedEntitiy {
 	protected void explode() {
 		_exploded = true;
 		_allowedToPassThru = true;
+		SoundFile.explosion.play();
+
 		// TODO: xử lý khi Character đứng tại vị trí Bomb
 		for (Character c : _board._characters) {
 			if(c.getXTile() == _x && c.getYTile() == _y){

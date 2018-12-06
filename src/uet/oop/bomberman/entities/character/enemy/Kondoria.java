@@ -6,11 +6,11 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.enemy.ai.AILow;
-import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.destroyable.DestroyableTile;
 import uet.oop.bomberman.graphics.Sprite;
 
 /**
- * Kondoria move through Brick
+ * Kondoria move through DestroyableTile (brick)
  */
 public class Kondoria extends Enemy {
     public Kondoria(int x, int y, Board board) {
@@ -34,6 +34,23 @@ public class Kondoria extends Enemy {
                 _sprite = Sprite.movingSprite(Sprite.kondoria_left1, Sprite.kondoria_left2, Sprite.kondoria_left3, _animate, 60);
                 break;
         }
+    }
+
+    @Override
+    public boolean collide(Entity e) {
+        // TODO: xử lý va chạm với Flame
+        // TODO: xử lý va chạm với Bomber
+        if(e instanceof Flame){
+            kill();
+            return true;
+        }
+        if(e instanceof Bomber){
+            return true;
+        }
+        if(e instanceof DestroyableTile){
+            return true;
+        }
+        return false;
     }
 
 }

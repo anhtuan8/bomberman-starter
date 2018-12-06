@@ -4,6 +4,7 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sounds.SoundFile;
 
 public class BombItem extends Item {
 
@@ -19,6 +20,7 @@ public class BombItem extends Item {
 				_used = true;
 				this.remove();
 				Game.addBombRate(1);
+				SoundFile.powerup.play();
 			}
 		}
 		return true;

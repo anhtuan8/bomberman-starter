@@ -1,6 +1,9 @@
 package uet.oop.bomberman.gui;
 
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.sounds.SoundFile;
+import uet.oop.bomberman.sounds.SoundPlayer;
+import uet.oop.bomberman.util.ThreadPool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +19,10 @@ public class Frame extends JFrame {
 	
 	private Game _game;
 
+	private ThreadPool pool;
+
 	public Frame() {
-		
+		pool = new ThreadPool(2);
 		_containerpane = new JPanel(new BorderLayout());
 		_gamepane = new GamePanel(this);
 		_infopanel = new InfoPanel(_gamepane.getGame());
@@ -33,9 +38,11 @@ public class Frame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
-		setVisible(true);	
-		
-		_game.start();
+		setVisible(true);
+
+		pool.runTask(_game.player);
+		pool.runTask(_game);
+		pool.join();
 	}
 	
 	public void setTime(int time) {

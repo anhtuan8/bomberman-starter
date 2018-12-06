@@ -2,19 +2,16 @@ package uet.oop.bomberman.entities.character;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.sounds.SoundFile;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
-import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
-import uet.oop.bomberman.entities.tile.Grass;
-import uet.oop.bomberman.entities.tile.Wall;
-import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.input.Keyboard;
 import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.sounds.SoundFile;
 
 import java.util.Iterator;
 import java.util.List;
@@ -115,6 +112,7 @@ public class Bomber extends Character {
     public void kill() {
         if (!_alive) return;
         _alive = false;
+        SoundFile.bomber_die.play();
     }
 
     @Override
@@ -166,6 +164,11 @@ public class Bomber extends Character {
 
     @Override
     public void move(double xa, double ya) {
+
+        if(!SoundFile.step.isPlaying()) {
+            SoundFile.step.play();
+        }
+
         // TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không và thực hiện thay đổi tọa độ _x, _y
         // TODO: nhớ cập nhật giá trị _direction sau khi di chuyển
         if(xa > 0) _direction = 1;
