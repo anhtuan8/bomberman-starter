@@ -10,7 +10,7 @@ import uet.oop.bomberman.graphics.Sprite;
  */
 public class Dahl extends Enemy{
     public Dahl(int x, int y, Board board) {
-        super(x, y, board, Sprite.doll_dead, Game.getBomberSpeed() , 100);
+        super(x, y, board, Sprite.doll_dead, Game.getBomberSpeed() , 400);
 
         _sprite = Sprite.doll_left1;
 
