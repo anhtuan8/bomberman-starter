@@ -5,7 +5,6 @@ import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AvoidBombAI extends AI {
     Bomb _bomb;
@@ -38,9 +37,6 @@ public class AvoidBombAI extends AI {
             possible_direction.add(0);
         }
 
-        if(dx == 0 && dy ==0){
-            return random.nextInt(4);
-        }
         return possible_direction.get(random.nextInt(possible_direction.size()));
     }
 
