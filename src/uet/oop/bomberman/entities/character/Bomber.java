@@ -83,7 +83,7 @@ public class Bomber extends Character {
         // TODO: nếu 3 điều kiện trên thỏa mãn thì thực hiện đặt bom bằng placeBomb()
         // TODO: sau khi đặt, nhớ giảm số lượng Bomb Rate và reset _timeBetweenPutBombs về 0
         if(_input.space && _timeBetweenPutBombs < 0 && Game.getBombRate()>0){
-            _timeBetweenPutBombs = 30;
+            _timeBetweenPutBombs = 20;
             Game.addBombRate(-1);
             placeBomb(this.getXTile(),this.getYTile());
         }

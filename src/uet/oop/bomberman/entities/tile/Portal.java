@@ -29,15 +29,9 @@ public class Portal extends Tile {
 					_board.nextLevel();
 				}
 			}
-//			SoundFile.next_level.play();
-//			_board.nextLevel();
 			return true;
 		}
-		if(e instanceof Flame){
-			for(int i =0;i<2;i++) {
-				_board.addCharacter(new Oneal(Coordinates.tileToPixel(_x), Coordinates.tileToPixel(_y) + Game.TILES_SIZE, _board));
-			}
-		}
+
 		return true;
 	}
 
